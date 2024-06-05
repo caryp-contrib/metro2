@@ -70,7 +70,7 @@ type HeaderRecord struct {
 	// Contains the date your reporting format was developed.
 	// Format is MMDDYYYY.
 	// If the day is not available, use 01.
-	ProgramDate utils.Time `json:"programDate"`
+	ProgramDate utils.Time `json:"programDate,omitempty"`
 
 	// Contains the last date your reporting format was revised.
 	// Format is MMDDYYYY.

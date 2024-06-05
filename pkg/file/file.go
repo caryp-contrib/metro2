@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"strconv"
 
 	"encoding/binary"
@@ -48,8 +49,10 @@ type dummyFile struct {
 
 // NewFile constructs a file template.
 func NewFile(format string) (File, error) {
+	fmt.Fprintf(os.Stdout, "CKP: Entered NewFile\n")
 	switch format {
 	case utils.CharacterFileFormat:
+		fmt.Fprintf(os.Stdout, "CKP: is CharacterFileFormat\n")
 		return &fileInstance{
 			logger:  log.NewDefaultLogger(),
 			format:  utils.CharacterFileFormat,
@@ -95,10 +98,14 @@ func NewFileFromReader(r io.Reader) (File, error) {
 		}
 	}
 
+	fmt.Fprintf(os.Stdout, "CKP: NewFileFromReader: isJson:%t\n", isJSON)
+
 	// Decode contents as Metro2 formatting when it's not JSON
 	if !isJSON {
 		return NewReader(r).Read()
 	}
+
+	fmt.Fprintf(os.Stdout, "CKP: NewFileFromReader: Determine the file format\n")
 
 	// Determine the file format
 	var buf bytes.Buffer
@@ -151,6 +158,8 @@ type Reader struct {
 
 // Read reads each record of the metro file
 func (r *Reader) Read() (File, error) {
+	fmt.Fprintf(os.Stdout, "CKP: Read: Entered function...\n")
+
 	f, ok := r.File.(*fileInstance)
 	if !ok {
 		return r.File, fmt.Errorf("unexpected File of %T", r.File)
@@ -162,7 +171,10 @@ func (r *Reader) Read() (File, error) {
 	if r.scanner.Scan() {
 		r.line = r.scanner.Bytes()
 
+		fmt.Fprintf(os.Stdout, "CKP: Read: Header Line: %s\n", r.line)
+
 		// getting file type
+		fmt.Fprintf(os.Stdout, "CKP: Read: getting file type\n")
 		if !utils.IsMetroFile(r.line) {
 			return nil, utils.ErrInvalidMetroFile
 		}
@@ -173,9 +185,12 @@ func (r *Reader) Read() (File, error) {
 		}
 
 		f.SetType(fileFormat)
+		fmt.Fprintf(os.Stdout, "CKP: Read. File format set:%s\n", fileFormat)
 
 		// Header Record
+		fmt.Fprintf(os.Stdout, "CKP: Read. Starting Header parse...\n")
 		if _, err := f.Header.Parse(r.line); err != nil {
+			fmt.Fprintf(os.Stdout, "CKP: Read. Header parse failed!!\n")
 			return nil, err
 		}
 	} else {
@@ -186,34 +201,41 @@ func (r *Reader) Read() (File, error) {
 	for r.scanner.Scan() {
 		r.line = r.scanner.Bytes()
 
+		fmt.Fprintf(os.Stdout, "CKP: Read: Base Line: %s\n", r.line)
+
 		var base lib.Record
 		if f.format == utils.PackedFileFormat {
 			base = lib.NewPackedBaseSegment()
 		} else {
 			base = lib.NewBaseSegment()
 		}
-
+		fmt.Fprintf(os.Stdout, "CKP: Read: Base Format: %s\n", f.format)
 		_, err := base.Parse(r.line)
 		if err != nil {
 			failedParse = true
-			break
+			return nil, err // return the error
+			// break
 		}
 		f.Bases = append(f.Bases, base)
 	}
 
-	if !failedParse {
-		// read new line
-		if r.scanner.Scan() {
-			r.line = r.scanner.Bytes()
-		} else {
-			return nil, utils.NewErrInvalidSegment("trailer")
-		}
-	}
+	fmt.Fprintf(os.Stdout, "CKP: Read: Base Records Parse Success: %t\n", !failedParse)
 
-	_, err := f.Trailer.Parse(r.line)
-	if err != nil {
-		return nil, err
-	}
+	// if !failedParse {
+	// 	fmt.Fprintf(os.Stdout, "CKP: Read: Start Trailer Scan\n")
+	// 	// read new line
+	// 	if r.scanner.Scan() {
+	// 		r.line = r.scanner.Bytes()
+	// 		fmt.Fprintf(os.Stdout, "CKP: Read: Trailer Line: %s\n", r.line)
+	// 	} else {
+	// 		return nil, utils.NewErrInvalidSegment("Trailer: " + r.scanner.Err().Error())
+	// 	}
+	// }
+
+	// _, err := f.Trailer.Parse(r.line)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return r.File, nil
 }
@@ -221,12 +243,14 @@ func (r *Reader) Read() (File, error) {
 // NewReader returns a new metro reader that reads from io reader.
 func NewReader(r io.Reader) *Reader {
 	f, _ := NewFile(utils.CharacterFileFormat)
+	fmt.Fprintf(os.Stdout, "CKP: NewReader: new file created.\n")
 	reader := &Reader{
 		File:    f,
 		scanner: bufio.NewScanner(r),
 	}
-
+	fmt.Fprintf(os.Stdout, "CKP: NewReader: new reader created.\n")
 	reader.scanner.Split(scanRecord)
+	fmt.Fprintf(os.Stdout, "CKP: NewReader: Split completed.\n")
 
 	return reader
 }

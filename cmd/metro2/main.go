@@ -178,16 +178,22 @@ var convert = &cobra.Command{
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
 
+		fmt.Fprintf(os.Stdout, "CKP: starting convert\n")
+
 		reader, err := createReader(cmd)
 		if err != nil {
 			return err
 		}
 		defer closeReader(reader)
 
+		fmt.Fprintf(os.Stdout, "CKP: reader opened\n")
+
 		format, err := cmd.Flags().GetString("format")
 		if err != nil {
 			return err
 		}
+
+		fmt.Fprintf(os.Stdout, "CKP: got format: %s\n", format)
 
 		if format != utils.MessageJsonFormat && format != utils.MessageMetroFormat {
 			if format == "" {
@@ -197,10 +203,16 @@ var convert = &cobra.Command{
 			}
 		}
 
+		fmt.Fprintf(os.Stdout, "CKP: Starting NetFileFromReader\n")
+
 		mf, err := file.NewFileFromReader(reader)
+		fmt.Fprintf(os.Stdout, "CKP: Completed NetFileFromReader. Err:%s\n", err)
+
 		if err != nil {
 			return err
 		}
+
+		fmt.Fprintf(os.Stdout, "CKP: Starting generate!")
 
 		generate, _ := cmd.Flags().GetBool("generate")
 		if generate {
@@ -273,5 +285,10 @@ func initRootCmd() {
 func main() {
 	initRootCmd()
 
-	rootCmd.Execute()
+	err := rootCmd.Execute()
+
+	if err != nil {
+		os.Exit(1) // problem detected
+	}
+	os.Exit(0) // all good
 }
