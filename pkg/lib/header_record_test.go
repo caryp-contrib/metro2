@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"testing"
 
+	"github.com/moov-io/metro2/pkg/utils"
 	"gopkg.in/check.v1"
 )
 
@@ -37,6 +38,17 @@ func (t *SegmentTest) TestHeaderRecordWithInvalidData(c *check.C) {
 	segment := NewHeaderRecord()
 	_, err := segment.Parse(append([]byte("ERROR"), t.sampleHeaderRecord...))
 	c.Assert(err, check.Not(check.IsNil))
+}
+
+func (t *SegmentTest) TestHeaderRecordWithEmptyProgramDate(c *check.C) {
+	segment := &HeaderRecord{}
+	_, err := segment.Parse(t.sampleHeaderRecord)
+	c.Assert(err, check.IsNil)
+	c.Assert(segment.ProgramDate.String(), check.Equals, "\"1999-05-10T00:00:00Z\"")
+	segment.ProgramDate = utils.Time{}
+	c.Assert(segment.ProgramDate.IsZero(), check.Equals, true)
+	err = segment.Validate()
+	c.Assert(err, check.IsNil)
 }
 
 func (t *SegmentTest) TestPackedHeaderRecord(c *check.C) {
