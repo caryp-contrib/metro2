@@ -445,22 +445,22 @@ func (f *fileInstance) generatorTrailer() (*lib.TrailerInformation, error) {
 			return nil, utils.NewErrInvalidSegment(baseSegment.Name())
 		}
 
-		if isValidSocialSecurityNumber(baseSegment.SocialSecurityNumber) {
-			trailer.TotalSocialNumbersAllSegments++
-			trailer.TotalSocialNumbersBaseSegments++
-		}
+		// if isValidSocialSecurityNumber(baseSegment.SocialSecurityNumber) {
+		// 	trailer.TotalSocialNumbersAllSegments++
+		// 	trailer.TotalSocialNumbersBaseSegments++
+		// }
 
-		if !baseSegment.DateBirth.IsZero() {
-			trailer.TotalDatesBirthAllSegments++
-			trailer.TotalDatesBirthBaseSegments++
-		}
+		// if !baseSegment.DateBirth.IsZero() {
+		// 	trailer.TotalDatesBirthAllSegments++
+		// 	trailer.TotalDatesBirthBaseSegments++
+		// }
 
 		if baseSegment.ECOACode == lib.ECOACodeZ {
 			trailer.TotalECOACodeZ++
 		}
-		if baseSegment.TelephoneNumber > 0 {
-			trailer.TotalTelephoneNumbersAllSegments++
-		}
+		// if baseSegment.TelephoneNumber > 0 {
+		// 	trailer.TotalTelephoneNumbersAllSegments++
+		// }
 		f.statisticAccountStatus(baseSegment.AccountStatus, trailer)
 		f.statisticBase(baseSegment, trailer)
 	}
@@ -478,23 +478,23 @@ func (f *fileInstance) generatorPackedTrailer() (*lib.TrailerInformation, error)
 			return nil, utils.NewErrInvalidSegment(base.Name())
 		}
 
-		if isValidSocialSecurityNumber(base.SocialSecurityNumber) {
-			trailer.TotalSocialNumbersAllSegments++
-			trailer.TotalSocialNumbersBaseSegments++
-		}
+		// if isValidSocialSecurityNumber(base.SocialSecurityNumber) {
+		// 	trailer.TotalSocialNumbersAllSegments++
+		// 	trailer.TotalSocialNumbersBaseSegments++
+		// }
 
-		if !base.DateBirth.IsZero() {
-			trailer.TotalDatesBirthAllSegments++
-			trailer.TotalDatesBirthBaseSegments++
-		}
+		// if !base.DateBirth.IsZero() {
+		// 	trailer.TotalDatesBirthAllSegments++
+		// 	trailer.TotalDatesBirthBaseSegments++
+		// }
 
 		if base.ECOACode == lib.ECOACodeZ {
 			trailer.TotalECOACodeZ++
 		}
 
-		if base.TelephoneNumber > 0 {
-			trailer.TotalTelephoneNumbersAllSegments++
-		}
+		// if base.TelephoneNumber > 0 {
+		// 	trailer.TotalTelephoneNumbersAllSegments++
+		// }
 
 		f.statisticAccountStatus(base.AccountStatus, trailer)
 		f.statisticPackedBase(base, trailer)

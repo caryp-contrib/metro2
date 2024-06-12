@@ -344,7 +344,7 @@ type BaseSegment struct {
 	//        Do not report trustee or estate accounts.
 	//        In cases where the debt is included in a revocable trust and  the consumer retains contractual responsibility, report the consumer’s Full Name, Address, Social Security Number, and Date of Birth within the Base Segment fields.
 	//        Do not report the name of the trust.
-	Surname string `json:"surname" validate:"required"`
+	// Surname string `json:"surname" validate:"required"`
 
 	// Report the full first name of the primary consumer.
 	// Names should not be abbreviated.
@@ -353,12 +353,12 @@ type BaseSegment struct {
 	// If reporting multiple first names, hyphenate the first names.
 	//
 	// Note: If a consumer uses only initials for first and middle names (e.g., A.J.), the first name initial should be reported in the First Name field (e.g., A)            and the middle initial should be reported in the            Middle Name field (e.g., J).
-	FirstName string `json:"firstName" validate:"required"`
+	// FirstName string `json:"firstName" validate:"required"`
 
 	// Report the middle name or middle initial of the primary consumer, if available.
 	//
 	// If reporting multiple middle names, hyphenate the middle names.
-	MiddleName string `json:"middleName,omitempty"`
+	// MiddleName string `json:"middleName,omitempty"`
 
 	// Used to distinguish Jr., Sr., II, III, etc.  If not applicable, blank fill.
 	// Values available:
@@ -384,7 +384,7 @@ type BaseSegment struct {
 	//   If the Social Security Number is not reported, the Date of Birth is required to be reported.
 	//   Do not report Individual Tax Identification Numbers  (ITINs) in this field.  ITINs do not prove identity outside the tax system and should not be offered or accepted as identification for non-tax purposes, per the Social Security Administration.
 	//   Do not report Credit Profile Numbers (CPNs) in this field.  The CPN should not be used for credit reporting purposes and does not replace the Social Security Number.
-	SocialSecurityNumber int `json:"socialSecurityNumber,omitempty"`
+	// SocialSecurityNumber int `json:"socialSecurityNumber,omitempty"`
 
 	// Report the full Date of Birth of the primary consumer, including the month, day and year.
 	// Reporting of this information is required as the Date of Birth greatly enhances accuracy in matching to the correct consumer.
@@ -393,10 +393,10 @@ type BaseSegment struct {
 	// Notes:  If the Date of Birth is not reported, the Social Security Number is required to be reported.
 	//         When reporting Authorized Users (ECOA Code 3), the full Date of Birth (MMDDYYYY) must be reported for all newly-added Authorized Users on all pre-existing and newly-opened accounts, even if the Social Security Number is reported.
 	//         Do not report accounts of consumers who are too young to enter into a binding contract.
-	DateBirth utils.Time `json:"dateBirth,omitempty"`
+	// DateBirth utils.Time `json:"dateBirth,omitempty"`
 
 	// Contains the telephone number of the primary consumer (Area Code + 7 digits).
-	TelephoneNumber int64 `json:"telephoneNumber"`
+	// TelephoneNumber int64 `json:"telephoneNumber"`
 
 	// Defines the relationship of the primary consumer to the account and designates the account as joint, individual, etc., in compliance with the Equal Credit Opportunity Act.
 	//
@@ -426,7 +426,7 @@ type BaseSegment struct {
 	// Contains the standard two-character country abbreviation.
 	//
 	// Exhibit 12 provides a list of the Country Codes.
-	CountryCode string `json:"countryCode"`
+	// CountryCode string `json:"countryCode"`
 
 	// Contains billing/mailing address for the primary consumer.
 	// If the consumer has a U.S. address and a foreign address, report the U.S. address.
@@ -447,26 +447,26 @@ type BaseSegment struct {
 	//
 	// Exhibit 13 provides general rules for address reporting.
 	// Do not enter data furnisher's address in this field.
-	FirstLineAddress string `json:"firstLineAddress" validate:"required"`
+	// FirstLineAddress string `json:"firstLineAddress" validate:"required"`
 
-	// Contains second line of address, if needed, such as apartment or unit number, or private mailbox number (PMB).
-	//
-	// Eliminate internal messages such as: “Do not mail”, “Attorney”, “Charge-off”, “Chapter 13”, “Fraud”, “Trustee”, or “Estate of”, “Care of”, “M/R” (Mail Returned), etc.
-	SecondLineAddress string `json:"secondLineAddress,omitempty"`
+	// // Contains second line of address, if needed, such as apartment or unit number, or private mailbox number (PMB).
+	// //
+	// // Eliminate internal messages such as: “Do not mail”, “Attorney”, “Charge-off”, “Chapter 13”, “Fraud”, “Trustee”, or “Estate of”, “Care of”, “M/R” (Mail Returned), etc.
+	// SecondLineAddress string `json:"secondLineAddress,omitempty"`
 
-	// Contains city name for address of primary consumer.
-	// Truncate rightmost positions if city name is greater than 20 characters or use standard 13-character U.S. Postal Service city abbreviations.
-	City string `json:"city" validate:"required"`
+	// // Contains city name for address of primary consumer.
+	// // Truncate rightmost positions if city name is greater than 20 characters or use standard 13-character U.S. Postal Service city abbreviations.
+	// City string `json:"city" validate:"required"`
 
-	// Contains the standard U.S. Postal Service state abbreviation for the address of the primary consumer.
-	//
-	// Exhibit 14 provides a list of State Codes.
-	State string `json:"state" validate:"required"`
+	// // Contains the standard U.S. Postal Service state abbreviation for the address of the primary consumer.
+	// //
+	// // Exhibit 14 provides a list of State Codes.
+	// State string `json:"state" validate:"required"`
 
-	// Report the Zip Code of the primary consumer’s address.
-	// Use entire field if reporting 9-digit zip codes.
-	// Otherwise, leftjustify and blank fill.
-	ZipCode string `json:"zipCode" validate:"required"`
+	// // Report the Zip Code of the primary consumer’s address.
+	// // Use entire field if reporting 9-digit zip codes.
+	// // Otherwise, leftjustify and blank fill.
+	// ZipCode string `json:"zipCode" validate:"required"`
 
 	// Contains one of the following values for the address reported in fields 40-44:
 	//
@@ -892,37 +892,37 @@ func (r *BaseSegment) ValidateInterestTypeIndicator() error {
 	return utils.NewErrInvalidValueOfField("interest type indicator", "base segment")
 }
 
-// validation of telephone number
-func (r *BaseSegment) ValidateTelephoneNumber() error {
-	if err := r.isPhoneNumber(r.TelephoneNumber, "base segment"); err != nil {
-		return err
-	}
-	return nil
-}
+// // validation of telephone number
+// func (r *BaseSegment) ValidateTelephoneNumber() error {
+// 	if err := r.isPhoneNumber(r.TelephoneNumber, "base segment"); err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }
 
-// validation of social security number
-func (r *BaseSegment) ValidateSocialSecurityNumber() error {
-	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
-		// social security number and date birth may omit for business account
-		if r.ECOACode == "2" || r.ECOACode == "5" {
-			return nil
-		}
-		return utils.NewErrInvalidValueOfField("social security number", "base segment")
-	}
-	return nil
-}
+// // validation of social security number
+// func (r *BaseSegment) ValidateSocialSecurityNumber() error {
+// 	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
+// 		// social security number and date birth may omit for business account
+// 		if r.ECOACode == "2" || r.ECOACode == "5" {
+// 			return nil
+// 		}
+// 		return utils.NewErrInvalidValueOfField("social security number", "base segment")
+// 	}
+// 	return nil
+// }
 
-// validation of date of birth
-func (r *BaseSegment) ValidateDateBirth() error {
-	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
-		// social security number and date birth may omit for business account
-		if r.ECOACode == "2" || r.ECOACode == "5" {
-			return nil
-		}
-		return utils.NewErrInvalidValueOfField("date birth", "base segment")
-	}
-	return nil
-}
+// // validation of date of birth
+// func (r *BaseSegment) ValidateDateBirth() error {
+// 	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
+// 		// social security number and date birth may omit for business account
+// 		if r.ECOACode == "2" || r.ECOACode == "5" {
+// 			return nil
+// 		}
+// 		return utils.NewErrInvalidValueOfField("date birth", "base segment")
+// 	}
+// 	return nil
+// }
 
 // validation of account status
 func (r *BaseSegment) ValidateAccountStatus() error {
@@ -1396,37 +1396,37 @@ func (r *PackedBaseSegment) ValidateInterestTypeIndicator() error {
 	return utils.NewErrInvalidValueOfField("interest type indicator", "packed base segment")
 }
 
-// validation of telephone number
-func (r *PackedBaseSegment) ValidateTelephoneNumber() error {
-	if err := r.isPhoneNumber(r.TelephoneNumber, "packed base segment"); err != nil {
-		return err
-	}
-	return nil
-}
+// // validation of telephone number
+// func (r *PackedBaseSegment) ValidateTelephoneNumber() error {
+// 	if err := r.isPhoneNumber(r.TelephoneNumber, "packed base segment"); err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }
 
-// validation of social security number
-func (r *PackedBaseSegment) ValidateSocialSecurityNumber() error {
-	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
-		// social security number and date birth may omit for business account
-		if r.ECOACode == "2" || r.ECOACode == "5" {
-			return nil
-		}
-		return utils.NewErrInvalidValueOfField("social security number", "base segment")
-	}
-	return nil
-}
+// // validation of social security number
+// func (r *PackedBaseSegment) ValidateSocialSecurityNumber() error {
+// 	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
+// 		// social security number and date birth may omit for business account
+// 		if r.ECOACode == "2" || r.ECOACode == "5" {
+// 			return nil
+// 		}
+// 		return utils.NewErrInvalidValueOfField("social security number", "base segment")
+// 	}
+// 	return nil
+// }
 
-// validation of date of birth
-func (r *PackedBaseSegment) ValidateDateBirth() error {
-	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
-		// social security number and date birth may omit for business account
-		if r.ECOACode == "2" || r.ECOACode == "5" {
-			return nil
-		}
-		return utils.NewErrInvalidValueOfField("date birth", "base segment")
-	}
-	return nil
-}
+// // validation of date of birth
+// func (r *PackedBaseSegment) ValidateDateBirth() error {
+// 	if r.SocialSecurityNumber == 0 && r.DateBirth.IsZero() {
+// 		// social security number and date birth may omit for business account
+// 		if r.ECOACode == "2" || r.ECOACode == "5" {
+// 			return nil
+// 		}
+// 		return utils.NewErrInvalidValueOfField("date birth", "base segment")
+// 	}
+// 	return nil
+// }
 
 // validation of account status
 func (r *PackedBaseSegment) ValidateAccountStatus() error {

@@ -48,23 +48,23 @@ type BaseSegment struct {
 	DateClosed                    *time.Time `json:"dateClosed,omitempty"`
 	DateLastPayment               *time.Time `json:"dateLastPayment,omitempty"`
 	InterestTypeIndicator         *string    `json:"interestTypeIndicator,omitempty"`
-	Surname                       string     `json:"surname"`
-	FirstName                     string     `json:"firstName"`
-	MiddleName                    *string    `json:"middleName,omitempty"`
-	GenerationCode                *string    `json:"generationCode,omitempty"`
-	SocialSecurityNumber          *int32     `json:"socialSecurityNumber,omitempty"`
-	DateBirth                     *time.Time `json:"dateBirth,omitempty"`
-	TelephoneNumber               *int64     `json:"telephoneNumber,omitempty"`
-	EcoaCode                      string     `json:"ecoaCode"`
-	ConsumerInformationIndicator  *string    `json:"consumerInformationIndicator,omitempty"`
-	CountryCode                   *string    `json:"countryCode,omitempty"`
-	FirstLineAddress              string     `json:"firstLineAddress"`
-	SecondLineAddress             *string    `json:"secondLineAddress,omitempty"`
-	City                          *string    `json:"city,omitempty"`
-	State                         string     `json:"state"`
-	ZipCode                       string     `json:"zipCode"`
-	AddressIndicator              *string    `json:"addressIndicator,omitempty"`
-	ResidenceCode                 *string    `json:"residenceCode,omitempty"`
+	// Surname                       string     `json:"surname"`
+	// FirstName                     string     `json:"firstName"`
+	// MiddleName                    *string    `json:"middleName,omitempty"`
+	GenerationCode               *string    `json:"generationCode,omitempty"`
+	SocialSecurityNumber         *int32     `json:"socialSecurityNumber,omitempty"`
+	DateBirth                    *time.Time `json:"dateBirth,omitempty"`
+	TelephoneNumber              *int64     `json:"telephoneNumber,omitempty"`
+	EcoaCode                     string     `json:"ecoaCode"`
+	ConsumerInformationIndicator *string    `json:"consumerInformationIndicator,omitempty"`
+	// CountryCode                  *string    `json:"countryCode,omitempty"`
+	// FirstLineAddress             string     `json:"firstLineAddress"`
+	// SecondLineAddress            *string    `json:"secondLineAddress,omitempty"`
+	// City                         *string    `json:"city,omitempty"`
+	// State                        string     `json:"state"`
+	// ZipCode                      string     `json:"zipCode"`
+	AddressIndicator *string `json:"addressIndicator,omitempty"`
+	ResidenceCode    *string `json:"residenceCode,omitempty"`
 }
 
 // NewBaseSegment instantiates a new BaseSegment object
